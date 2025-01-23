@@ -1,0 +1,42 @@
+$pColor: #f44336;
+
+.auth-main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-register-card {
+  width: 440px;
+  border: none;
+  background: transparent;
+  transition: box-shadow 0.2s ease-in-out;
+ 
+  &:hover{
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+}
+.auth-heading{
+  font-family: "Nunito Sans", sans-serif;
+}
+
+form {
+  position: relative;
+  z-index: 2;
+}
+
+.register-btn:hover {
+  color: black !important;
+  border-color: grey !important;
+}
+
+.login-btn:hover {
+  color: black !important;
+  border-color: grey !important;
+}
+
+@media (max-width: 440px) {
+  .login-register-card {
+    width: 330px;
+  }
+}
