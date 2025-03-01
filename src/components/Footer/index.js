@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { MdOutlineEmail } from "react-icons/md";
 import paymentImg from '../../assets/images/payment.png';
 import { useAuthContext } from '../../contexts/AuthContext';
 import { collection, doc, serverTimestamp, setDoc } from 'firebase/firestore';
@@ -91,7 +92,7 @@ export default function Footer() {
                                 <p>Be the first to know about new arrivals, look books, sales & promos!</p>
                                 <form action="#">
                                     <input type="text" placeholder="Your email" name='email' value={email} onChange={handleEmailChange} />
-                                        <button type="submit" onClick={handleSubmit}><i className="far fa-envelope text-white"></i></button>
+                                        <button type="submit" onClick={handleSubmit}><MdOutlineEmail size={22} /></button>
                                 </form>
                             </div>
                         </div>

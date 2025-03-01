@@ -1,12 +1,17 @@
-import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import React, { useEffect, useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import { IoIosSearch } from "react-icons/io";
+import { GoHeart } from "react-icons/go";
+import { RiShoppingBag4Fill } from "react-icons/ri";
+import { BsList } from "react-icons/bs";
 
 export default function Header() {
     const [isScrolled, setIsScrolled] = useState(false);
+    const location = useLocation(); // Get current route
 
     useEffect(() => {
         const handleScroll = () => {
-            if (window.scrollY > 44) {
+            if (window.scrollY > 36) {
                 setIsScrolled(true);
             } else {
                 setIsScrolled(false);
@@ -51,14 +56,14 @@ export default function Header() {
                         <div className="col-lg-6 col-md-6">
                             <nav className="header__menu mobile-menu">
                                 <ul>
-                                    <li className="active"><Link className='link-decor'>Home</Link></li>
-                                    <li><Link className='link-decor'>Shop</Link></li>
-                                    <li><Link className='link-decor'>Blog</Link></li>
-                                    <li><Link className='link-decor'>Contacts</Link></li>
-                                    <li><Link className='link-decor'>Pages</Link>
+                                    <li className={location.pathname === '/' ? 'active' : ''}><Link to='/' className='link-decor'>Home</Link></li>
+                                    <li className={location.pathname === '/shop' ? 'active' : ''}><Link to='shop' className='link-decor'>Shop</Link></li>
+                                    <li className={location.pathname === '/blog' ? 'active' : ''}><Link to='blog' className='link-decor'>Blog</Link></li>
+                                    <li className={location.pathname === '/contact' ? 'active' : ''}><Link to='contact' className='link-decor'>Contacts</Link></li>
+                                    <li className={location.pathname === '/about' ? 'active' : ''}><Link className='link-decor'>Pages</Link>
                                         <ul className="dropdown">
-                                            <li><Link className='link-decor'>About Us</Link></li>
-                                            <li><Link className='link-decor'>Shop Details</Link></li>
+                                            <li><Link to='about' className='link-decor'>About Us</Link></li>
+                                            <li><Link to="shop-detail" className='link-decor'>Shop Details</Link></li>
                                             <li><Link className='link-decor'>Blog Details</Link></li>
                                             <li><Link className='link-decor'>Check Out</Link></li>
                                         </ul>
@@ -68,9 +73,9 @@ export default function Header() {
                         </div>
                         <div className="col-lg-3 col-md-3">
                             <div className="header__nav__option">
-                                <Link><i className="fas fa-magnifying-glass fa-lg text-primary" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop"></i></Link>
-                                <Link ><i className="far fa-heart fa-lg"></i></Link>
-                                <Link ><i className="fas fa-cart-shopping fa-lg"></i></Link>
+                                <Link><IoIosSearch size={24} data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop" /></Link>
+                                <Link ><GoHeart size={22}/></Link>
+                                <Link ><RiShoppingBag4Fill size={22} /></Link>
                             </div>
                         </div>
                     </div>
@@ -78,13 +83,13 @@ export default function Header() {
             </div>
             <div className='header-mobile'>
                 <div className="container-xxl">
-                    <div className="row px-3 bg-dark-subtle  border-bottom">
+                    <div className="row px-3 bg-dark-subtle border-bottom ">
                         <div className="col-8 ">
                             <p className='fs-3 mt-3'><span className='fw-bold'>COZERA</span> STORE</p>
                         </div>
                         <div className="col-4">
                             <div className="canvas__open text-end me-3 me-sm-1 mt-4">
-                                <i className="fa fa-bars fa-lg" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample"></i>
+                                <BsList size={26} data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample" style={{marginTop: '-5px'}} />
                             </div>
                         </div>
                     </div>
@@ -102,15 +107,15 @@ export default function Header() {
                             <Link to='/' className='m-5 text-decoration-none text-dark'>FAQs</Link>
                         </div>
                         <div className='text-center mt-4'>
-                            <Link className='m-4 text-dark'><i className="fas fa-magnifying-glass fa-lg" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop"></i></Link>
-                            <Link className='m-4 text-dark'><i className="far fa-heart fa-lg"></i></Link>
-                            <Link className='m-4 text-dark'><i className="fas fa-cart-shopping fa-lg"></i></Link>
+                            <Link className='m-4 text-dark'><IoIosSearch size={22} data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop" /></Link>
+                            <Link className='m-4 text-dark'><GoHeart size={22}/></Link>
+                            <Link className='m-4 text-dark'><RiShoppingBag4Fill size={22} /></Link>
                         </div>
                         <div className='mt-4'>
-                            <Link className='text-dark text-decoration-none d-block mb-1'>Home</Link>
-                            <Link className='text-dark text-decoration-none d-block mb-1'>shop</Link>
-                            <Link className='text-dark text-decoration-none d-block mb-1'>Blog</Link>
-                            <Link className='text-dark text-decoration-none d-block mb-1'>Contact</Link>
+                            <Link to='/' className='text-dark text-decoration-none d-block mb-1'>Home</Link>
+                            <Link to='shop' className='text-dark text-decoration-none d-block mb-1'>shop</Link>
+                            <Link to='blog' className='text-dark text-decoration-none d-block mb-1'>Blog</Link>
+                            <Link to='contact' className='text-dark text-decoration-none d-block mb-1'>Contact</Link>
                             <Link className='text-dark text-decoration-none d-block mb-1 dropdown-toggle' data-bs-toggle="dropdown" >Pages</Link>
                             <ul className="dropdown-menu">
                                 <li><Link className='dropdown-item text-dark text-decoration-none d-block mb-1'>About Us</Link></li>

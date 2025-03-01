@@ -1,0 +1,42 @@
+.product-img-container {
+    position: relative;
+    overflow: hidden;
+}
+
+.product-img {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: transform 0.5s ease-in-out;
+
+    &:hover {
+        transform: scale(1.1);
+    }
+}
+
+/* Button Styling */
+.product-btn {
+    position: absolute;
+    bottom: -50px;
+    /* Initially hidden below the image */
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #fff;
+    color: #000;
+    padding: 8px 16px;
+    border: none;
+    opacity: 0;
+    transition: all 0.4s ease-in-out;
+}
+
+/* Show button on hover */
+.product-img-container:hover .product-btn {
+    bottom: 15px;
+    opacity: 1;
+}
+
+/* Button hover effect */
+.product-btn:hover {
+    background-color: #000;
+    color: #fff;
+}

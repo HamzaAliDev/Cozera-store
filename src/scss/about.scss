@@ -1,0 +1,57 @@
+.hero-about{
+    background-image: url('../assets/images/about-us.jpg');
+    height: 80vh;
+    background-size: cover;
+    background-position: center;
+
+}
+.about-story{
+    font-family: "Nunito Sans", sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #525252;
+    margin: 20px 5px;
+    // text-align: justify;
+}
+.img-border-container{
+    border: 3px solid #757575;
+    height: 400px;
+    width: 65%px;
+
+    @media (max-width: 530px){
+        height: 300px;
+        width: 100%;       
+    }
+}
+.story-img{
+    height: 100%;
+    width: 100%;
+    margin-top: -30px;
+    margin-left: 35px;
+
+    @media (max-width: 530px){
+        margin-top: 0px;
+        margin-left: 0px;
+        
+    }
+}
+.tesimonial-card{
+    height: 210px;
+
+    @media (max-width: 530px){
+        height: auto;
+        
+    }
+}
+.testimonial-img-container{
+    height: 70px;
+    width: 70px;
+    border-radius: 80%;
+    overflow: hidden;
+}
+.customer-img{
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    
+}
