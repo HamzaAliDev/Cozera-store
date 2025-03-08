@@ -11,6 +11,9 @@
 @import'./scss/contact';
 @import'./scss/about';
 @import'./scss/shopDetail';
+@import'./scss/blogDetail';
+@import'./scss/checkout';
+@import'./scss/cart';
 #root{
     display: flex;
     flex-direction: column;
@@ -21,9 +24,6 @@ main{
     font-family: "Playwrite DE Grund", serif;
     // padding-top: 30px;    
 }
-h1,h2, h3 ,h5, h4, a{
+h1,h2, h3 ,h5, h4,th, a{
     font-family: "Nunito Sans", sans-serif;
-}
-main{
-    font-family: "Playwrite DE Grund", serif;
 }

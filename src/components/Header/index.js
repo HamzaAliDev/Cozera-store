@@ -6,26 +6,26 @@ import { RiShoppingBag4Fill } from "react-icons/ri";
 import { BsList } from "react-icons/bs";
 
 export default function Header() {
-    const [isScrolled, setIsScrolled] = useState(false);
+    // const [isScrolled, setIsScrolled] = useState(false);
     const location = useLocation(); // Get current route
 
-    useEffect(() => {
-        const handleScroll = () => {
-            if (window.scrollY > 36) {
-                setIsScrolled(true);
-            } else {
-                setIsScrolled(false);
-            }
-        };
-        window.addEventListener('scroll', handleScroll);
+    // useEffect(() => {
+    //     const handleScroll = () => {
+    //         if (window.scrollY > 36) {
+    //             setIsScrolled(true);
+    //         } else {
+    //             setIsScrolled(false);
+    //         }
+    //     };
+    //     window.addEventListener('scroll', handleScroll);
 
-        return () => {
-            window.removeEventListener('scroll', handleScroll);
-        };
-    }, []);
+    //     return () => {
+    //         window.removeEventListener('scroll', handleScroll);
+    //     };
+    // }, []);
 
     return (
-        <header className={`header ${isScrolled ? 'scrolled' : ''}`}>
+        <header className={`header`}>
             <div className='header-web'>
                 <div className="header__top">
                     <div className="container">
@@ -64,8 +64,8 @@ export default function Header() {
                                         <ul className="dropdown">
                                             <li><Link to='about' className='link-decor'>About Us</Link></li>
                                             <li><Link to="shop-detail" className='link-decor'>Shop Details</Link></li>
-                                            <li><Link className='link-decor'>Blog Details</Link></li>
-                                            <li><Link className='link-decor'>Check Out</Link></li>
+                                            <li><Link to='blog-detail' className='link-decor'>Blog Details</Link></li>
+                                            <li><Link to='checkout' className='link-decor'>Check Out</Link></li>
                                         </ul>
                                     </li>
                                 </ul>
@@ -74,8 +74,8 @@ export default function Header() {
                         <div className="col-lg-3 col-md-3">
                             <div className="header__nav__option">
                                 <Link><IoIosSearch size={24} data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop" /></Link>
-                                <Link ><GoHeart size={22}/></Link>
-                                <Link ><RiShoppingBag4Fill size={22} /></Link>
+                                <Link to='wishlist'><GoHeart size={22}/></Link>
+                                <Link to='shopping-cart' ><RiShoppingBag4Fill size={22} /></Link>
                             </div>
                         </div>
                     </div>
@@ -108,8 +108,8 @@ export default function Header() {
                         </div>
                         <div className='text-center mt-4'>
                             <Link className='m-4 text-dark'><IoIosSearch size={22} data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop" /></Link>
-                            <Link className='m-4 text-dark'><GoHeart size={22}/></Link>
-                            <Link className='m-4 text-dark'><RiShoppingBag4Fill size={22} /></Link>
+                            <Link to='wishlist' className='m-4 text-dark'><GoHeart size={22}/></Link>
+                            <Link to='shopping-cart' className='m-4 text-dark'><RiShoppingBag4Fill size={22} /></Link>
                         </div>
                         <div className='mt-4'>
                             <Link to='/' className='text-dark text-decoration-none d-block mb-1'>Home</Link>
@@ -118,10 +118,10 @@ export default function Header() {
                             <Link to='contact' className='text-dark text-decoration-none d-block mb-1'>Contact</Link>
                             <Link className='text-dark text-decoration-none d-block mb-1 dropdown-toggle' data-bs-toggle="dropdown" >Pages</Link>
                             <ul className="dropdown-menu">
-                                <li><Link className='dropdown-item text-dark text-decoration-none d-block mb-1'>About Us</Link></li>
-                                <li><Link className='dropdown-item text-dark text-decoration-none d-block mb-1'>Shop Detail</Link></li>
-                                <li><Link className='dropdown-item text-dark text-decoration-none d-block mb-1'>Blog Detail</Link></li>
-                                <li><Link className='dropdown-item text-dark text-decoration-none d-block mb-1'>Checkout</Link></li>
+                                <li><Link to='about' className='dropdown-item text-dark text-decoration-none d-block mb-1'>About Us</Link></li>
+                                <li><Link to='shop-detail' className='dropdown-item text-dark text-decoration-none d-block mb-1'>Shop Detail</Link></li>
+                                <li><Link to='blog-detail' className='dropdown-item text-dark text-decoration-none d-block mb-1'>Blog Detail</Link></li>
+                                <li><Link to='checkout' className='dropdown-item text-dark text-decoration-none d-block mb-1'>Checkout</Link></li>
                             </ul>
                         </div>
                         <div className='mt-4'>
@@ -135,17 +135,15 @@ export default function Header() {
             <div className="offcanvas offcanvas-top" tabIndex="-1" id="offcanvasTop" aria-labelledby="offcanvasTopLabel">
                 <div className="offcanvas-body">
                     <div className="row mt-5 d-flex justify-content-end me-5">
-                        <button type="button " className="btn-close " data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                        <button type="button " className="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                     </div>
                     <form action="">
                         <div className="row p-4">
-                            <input type="text" className='input-custom  fw-light fs-2 p-lg-3 p-md-3 p-sm-3' placeholder='Search' />
+                            <input type="text" className='input-custom fw-light fs-2 p-lg-3 p-md-3 p-sm-3' placeholder='Search' />
                         </div>
                     </form>
-
                 </div>
             </div>
-
         </header>
     )
 }

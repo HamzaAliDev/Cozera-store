@@ -1,0 +1,35 @@
+.cart-table{
+
+    thead tr{
+        padding: 10px 0px;
+        text-transform: uppercase;
+    }
+
+    .product-info p{
+        font-size: 14px;
+        font-weight: 400;
+        color: #393939;
+    }
+
+}
+.coupen-container{
+    .coupen-input{
+        outline: none;
+        border: 1px solid #727272;
+        padding: 10px 15px;
+        width: 100%;
+        
+    }
+
+    button {
+        font-size: 14px;
+
+    }
+}
+
+.proceed-btn{
+    font-family: "Nunito Sans", sans-serif;
+    font-size: 14px;
+    text-transform: uppercase;
+    font-weight: 700;
+}

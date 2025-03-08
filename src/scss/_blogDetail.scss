@@ -1,0 +1,47 @@
+.blog-bg-image{
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 85vh;
+}
+.blog-bg-text{
+    background-color: #dedddd;
+    color: #0b0b0b;
+    display: inline-block;
+    text-align: center;
+    padding: 10px;
+    margin: 10px 0px 0px 10px;
+
+    p{
+        font-size: 12px;
+    };
+}
+.key-data-blog p{
+    font-size: 12px;
+    color: #0b0b0b;
+    margin: 0px;
+}
+.blog-description-img{
+    width: 350px;
+    height: 400px;
+    object-fit: cover;
+}
+.blog-tag-container{
+    .heading{
+        font-family: "Nunito Sans", sans-serif !important;
+    }
+    .tag{
+        border: 1px solid #696969;
+        padding: 5px 15px;
+        margin: 5px;
+        border-radius: 15px;
+        font-size: 14px;
+        font-weight: 700;
+        font-family: "Nunito Sans", sans-serif !important;
+    }
+}
+
+.comment-heading{
+    font-weight: 900;
+
+}
