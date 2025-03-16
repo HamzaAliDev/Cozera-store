@@ -1,28 +1,20 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { IoIosSearch } from "react-icons/io";
 import { GoHeart } from "react-icons/go";
 import { RiShoppingBag4Fill } from "react-icons/ri";
 import { BsList } from "react-icons/bs";
+import { logout } from '../../store/slices/authSlice';
 
 export default function Header() {
-    // const [isScrolled, setIsScrolled] = useState(false);
     const location = useLocation(); // Get current route
+    const user = useSelector(store => store.authSlice.user);
+    const dispatch = useDispatch();
 
-    // useEffect(() => {
-    //     const handleScroll = () => {
-    //         if (window.scrollY > 36) {
-    //             setIsScrolled(true);
-    //         } else {
-    //             setIsScrolled(false);
-    //         }
-    //     };
-    //     window.addEventListener('scroll', handleScroll);
-
-    //     return () => {
-    //         window.removeEventListener('scroll', handleScroll);
-    //     };
-    // }, []);
+    const handleLogout = () => {
+        dispatch(logout());
+    }
 
     return (
         <header className={`header`}>
@@ -38,7 +30,11 @@ export default function Header() {
                             <div className="col-lg-6 col-md-5">
                                 <div className="header__top__right">
                                     <div className="header__top__links">
-                                        <Link to='/auth/login' className='Links'>Sign in</Link>
+                                        {user ?
+                                            <span className='Links' role="button" tabIndex="0" onClick={handleLogout}>Sign out</span>
+                                            :
+                                            <Link to='/auth/login' className='Links'>Sign in</Link>
+                                        }
                                         <Link to='/' className='Links'>FAQs</Link>
                                     </div>
                                 </div>
@@ -74,7 +70,7 @@ export default function Header() {
                         <div className="col-lg-3 col-md-3">
                             <div className="header__nav__option">
                                 <Link><IoIosSearch size={24} data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop" /></Link>
-                                <Link to='wishlist'><GoHeart size={22}/></Link>
+                                <Link to='wishlist'><GoHeart size={22} /></Link>
                                 <Link to='shopping-cart' ><RiShoppingBag4Fill size={22} /></Link>
                             </div>
                         </div>
@@ -89,7 +85,7 @@ export default function Header() {
                         </div>
                         <div className="col-4">
                             <div className="canvas__open text-end me-3 me-sm-1 mt-4">
-                                <BsList size={26} data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample" style={{marginTop: '-5px'}} />
+                                <BsList size={26} data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample" style={{ marginTop: '-5px' }} />
                             </div>
                         </div>
                     </div>
@@ -103,12 +99,15 @@ export default function Header() {
                     </div>
                     <div className="offcanvas-body">
                         <div className='text-center'>
-                            <Link to='/auth/login' className='m-5 text-decoration-none text-dark'>Sign in</Link>
+                            {user ? <span className='m-5 text-decoration-none text-dark' role='button' tabIndex='0' onClick={handleLogout}>Logout</span>
+                                :
+                                <Link to='/auth/login' className='m-5 text-decoration-none text-dark'>Sign in</Link>
+                            }
                             <Link to='/' className='m-5 text-decoration-none text-dark'>FAQs</Link>
                         </div>
                         <div className='text-center mt-4'>
                             <Link className='m-4 text-dark'><IoIosSearch size={22} data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop" /></Link>
-                            <Link to='wishlist' className='m-4 text-dark'><GoHeart size={22}/></Link>
+                            <Link to='wishlist' className='m-4 text-dark'><GoHeart size={22} /></Link>
                             <Link to='shopping-cart' className='m-4 text-dark'><RiShoppingBag4Fill size={22} /></Link>
                         </div>
                         <div className='mt-4'>

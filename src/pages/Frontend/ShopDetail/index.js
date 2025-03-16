@@ -1,13 +1,12 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
 import thumb01 from '../../../assets/images/thumb-1.png'
 import thumb02 from '../../../assets/images/thumb-2.png'
 import thumb03 from '../../../assets/images/thumb-3.png'
 import thumb04 from '../../../assets/images/thumb-4.png'
-import shoppingCrd from '../../../assets/images/payment.png';
 import { Divider, InputNumber, Rate } from 'antd'
 import { GoHeart } from 'react-icons/go'
 import Products from '../../../components/Products'
+import Breadcrumb from '../../../components/Breadcrumb'
 
 export default function ShopDetail() {
     const [image, setImage] = useState(thumb01);
@@ -35,16 +34,7 @@ export default function ShopDetail() {
     return (
         <main className='container-fluid bg-light p-0'>
             {/* Breadcrumb Section Begin */}
-            <section className="breadcrumb-option" style={{ backgroundColor: '#f3f2ee', padding: "40px 0px" }}>
-                <div className="container">
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><Link to='/' >Home</Link></li>
-                            <li class="breadcrumb-item active" aria-current="page">About</li>
-                        </ol>
-                    </nav>
-                </div>
-            </section>
+            <Breadcrumb />
 
             {/* Hero Section Begin */}
             <section className="hero-shopDetail-section" style={{ padding: "40px 0px" }}>

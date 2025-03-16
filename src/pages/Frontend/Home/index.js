@@ -1,21 +1,21 @@
 import React, { useState } from 'react';
 import { IoIosSearch } from "react-icons/io";
 import { RxCross2 } from "react-icons/rx";
-import { GoHeart } from "react-icons/go";
-import { GoHeartFill } from "react-icons/go";
 import heroImg from '../../../assets/images/hero-image.png';
 import banner1 from '../../../assets/images/banner-1.jpg';
 import banner2 from '../../../assets/images/banner-2.jpg';
 import banner3 from '../../../assets/images/banner-3.jpg';
-import blog1 from '../../../assets/images/blog-2.jpg';
-import blog2 from '../../../assets/images/blog-3.jpg';
-import blog3 from '../../../assets/images/blog-6.jpg';
 import Products from '../../../components/Products';
 import Blogs from '../../../components/Blogs';
+import { useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+
 
 export default function Home() {
+  const user = useSelector(store => store.authSlice.user);
   const [isOpen, setIsOpen] = useState(false);
-  const [isfilled, setIsfilled] = useState(false);
+  const navigate = useNavigate();
+
 
   return (
     <>
@@ -28,7 +28,7 @@ export default function Home() {
               <h1 className='fw-bold'>Discover the Latest Trends & Exclusive Deals!</h1>
               <p className=' mt-2'>Shop the hottest fashion, top-quality accessories, and must-have essentials—all in one place.</p>
               <div>
-                <button className='my-5 btn btn-dark px-5 py-2 rounded-0'>Shop Now</button>
+                <button className='my-5 btn btn-dark px-5 py-2 rounded-0' onClick={()=> navigate('/shop')}>Shop Now</button>
               </div>
             </div>
             <div className='col-lg-4 col-md-6 col-sm-6 p-1 hero-section-img'>
@@ -44,11 +44,11 @@ export default function Home() {
               <div className="col-lg-7 offset-lg-4">
                 <div className="banner__item">
                   <div className="banner__item__pic">
-                    <img src={banner1} alt="" />
+                    <img src={banner1} alt="Clothes Collection" />
                   </div>
                   <div className="banner__item__text">
                     <h2>Clothing Collections 2025</h2>
-                    <a href="#">SHOP NOW</a>
+                    <Link to="/shop">SHOP NOW</Link>
                     <div className='text-bar'></div>
                   </div>
                 </div>
@@ -56,11 +56,11 @@ export default function Home() {
               <div className="col-lg-5">
                 <div className="banner__item banner__item--middle">
                   <div className="banner__item__pic">
-                    <img src={banner2} alt="" />
+                    <img src={banner2} alt="Accessories" />
                   </div>
                   <div className="banner__item__text">
                     <h2>Accessories</h2>
-                    <a href="#">SHOP NOW</a>
+                    <Link to="/shop">SHOP NOW</Link>
                     <div className='text-bar'></div>
                   </div>
                 </div>
@@ -68,11 +68,11 @@ export default function Home() {
               <div className="col-lg-7 ">
                 <div className="banner__item banner__item--last">
                   <div className="banner__item__pic">
-                    <img src={banner3} alt="" />
-                  </div>
+                    <img src={banner3} alt="Shoes" />
+                  </div> 
                   <div className="banner__item__text">
                     <h2>Shoes Spring 2025</h2>
-                    <a href="#">SHOP NOW</a>
+                    <Link to="/shop">SHOP NOW</Link>
                     <div className='text-bar'></div>
                   </div>
                 </div>
@@ -87,7 +87,7 @@ export default function Home() {
             <h1 className='fw-bold'>Product Overview</h1>
             <div className='filter-btns mt-3 d-flex flex-wrap justify-content-between align-items-center'>
               <div className='pt-2'>
-                <ul className='d-flex list-unstyled justify-content-left align-items-center'>
+                <ul className='d-flex  list-unstyled justify-content-left align-items-center'>
                   <li className='products-navbar'>All</li>
                   <li className='products-navbar'>Clothing</li>
                   <li className='products-navbar'>Accessories</li>
@@ -110,8 +110,8 @@ export default function Home() {
                   Search</button>
               </div>
             </div>
-            <div class="collapse" id="collapseExample">
-              <div class="my-3">
+            <div className="collapse" id="collapseExample">
+              <div className="my-3">
                 <input type="text" className='search-input' placeholder='Search' />
               </div>
             </div>

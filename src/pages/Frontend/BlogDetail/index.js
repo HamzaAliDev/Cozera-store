@@ -1,22 +1,13 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
 import blogImage from '../../../assets/images/blog-big-01.jpg';
 import blogDesc from '../../../assets/images/blog-des-01.jpg';
+import Breadcrumb from '../../../components/Breadcrumb';
 
 export default function BlogDetail() {
     return (
         <main className='container-fluid bg-light p-0'>
             {/* Breadcrumb Section Begin */}
-            <section className="breadcrumb-option" style={{ backgroundColor: '#f3f2ee', padding: "40px 0px" }}>
-                <div className="container">
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><Link to='/' >Home</Link></li>
-                            <li class="breadcrumb-item active" aria-current="page">Blog</li>
-                        </ol>
-                    </nav>
-                </div>
-            </section>
+            <Breadcrumb />
 
             <section>
                 <div className="container">
@@ -40,7 +31,7 @@ export default function BlogDetail() {
                                 so you can enjoy fashion-forward outfits all season long. Layering a dress with a fitted turtleneck underneath is
                                 a stylish way to stay warm without compromising on elegance. This works especially well with sleeveless or strappy dresses,
                                 allowing you to make the most of your wardrobe year-round. Opt for neutral or bold colors to create a statement look.
-                                </p>
+                            </p>
 
                             <p className='text-secondary'>Pairing dresses with knee-high or over-the-knee boots is both fashionable and practical. Tall boots provide coverage
                                 against the cold while adding elegance to your look. They are perfect for styling with midi or mini dresses to create a
@@ -61,11 +52,11 @@ export default function BlogDetail() {
                     </div>
 
                     <div className="row mt-5">
-                       <h4>Tags</h4>
+                        <h4>Tags</h4>
                         <div className="blog-tag-container">
                             <span className='tag'>StreetStyle</span>
                             <span className='tag'>Fashion</span>
-                            
+
                         </div>
                     </div>
 

@@ -2,54 +2,22 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { MdOutlineEmail } from "react-icons/md";
 import paymentImg from '../../assets/images/payment.png';
-import { useAuthContext } from '../../contexts/AuthContext';
-import { collection, doc, serverTimestamp, setDoc } from 'firebase/firestore';
-import { firestore } from '../../config/firebase';
+
 
 export default function Footer() {
-    const {isAuthenticated, user} = useAuthContext();
     const [email,setEmail] = useState('');
-    const navigate = useNavigate();
     const year =  new Date().getFullYear();
 
     const handleEmailChange = (e) => {
         setEmail(e.target.value);
     }
-     
-    const handleSubmit = async(e) => {
+
+    const handleSubmit = (e) => {
         e.preventDefault();
+        window.toastify("Thanks for subscribing", 'success');
+        setEmail('');
+    }     
 
-        if (!isAuthenticated) { window.toastify("Please Login", "info"); return navigate('/auth/login') }
-
-        
-        if(!email){return window.toastify("Enter email",'error')}
-        let trimmedEmail = email.trim();
-
-        if(!window.isEmail(trimmedEmail)){return  window.toastify("Invalid Email",'error')}
-        
-        try {
-            // Create a new document reference with an auto-generated ID
-            const newDocRef = doc(collection(firestore, "Emails"));
-
-            // Get the generated document ID
-            const documentId = newDocRef.id;
-
-            // Set the document data with the document ID included
-            await setDoc(newDocRef, {
-                email: trimmedEmail,
-                userId: user.id,
-                createdAt: serverTimestamp(),
-                emailId: documentId,  // Include the ID in the document data
-            });
-
-            window.toastify("Email Added Successfully", "success");
-            setEmail(' ');
-
-        } catch (error) {
-            console.error("Error adding email: ", error);
-            window.toastify("Something went wrong while adding Email", "error");
-        }
-    }
     return (
         <footer className="footer">
             <div className="container">

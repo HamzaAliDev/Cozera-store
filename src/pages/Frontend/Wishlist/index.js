@@ -1,29 +1,19 @@
-import { InputNumber } from 'antd'
 import React from 'react'
 import { ImCross } from 'react-icons/im'
-import { Link } from 'react-router-dom'
 import productImg from '../../../assets/images/banner-1.jpg'
+import Breadcrumb from '../../../components/Breadcrumb'
 
 export default function Wishlist() {
     return (
         <main className='container-fluid bg-light p-0'>
             {/* Breadcrumb Section Begin */}
-            <section className="breadcrumb-option" style={{ backgroundColor: '#f3f2ee', padding: "40px 0px" }}>
-                <div className="container">
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><Link to='/' >Home</Link></li>
-                            <li class="breadcrumb-item active" aria-current="page">Wishlist</li>
-                        </ol>
-                    </nav>
-                </div>
-            </section>
+            <Breadcrumb />
 
             <section>
                 <div className="container">
                     <div className="row my-5 px-lg-5">
                         <div className="table-responsive">
-                            <table class="table table-light cart-table align-middle">
+                            <table className="table table-light cart-table align-middle">
                                 <thead>
                                     <tr>
                                         <th scope="col">Product</th>

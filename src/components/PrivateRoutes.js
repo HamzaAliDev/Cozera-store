@@ -1,10 +1,11 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
-import { useAuthContext } from '../contexts/AuthContext';
+import { useSelector } from 'react-redux';
 
 export default function PrivateRoutes({ Component }) {
-    const { user } = useAuthContext()
-        // Check if user or user.roles is undefined
+    const user  = useSelector(state => state.authSlice.user)
+
+    // Check if user 
         if (!user || !user.roles || !Array.isArray(user.roles)) {
             return <Navigate to='/' />
         }

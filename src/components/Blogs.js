@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import blog1 from '../assets/images/blog-1.jpg';
 import blog2 from '../assets/images/blog-2.jpg';
 import blog3 from '../assets/images/blog-3.jpg';
@@ -97,7 +98,7 @@ export default function Blogs({number}) {
                                 <i className="fa-regular fa-calendar-days text-secondary"></i>
                                 <span className='text-secondary ms-3'>{blog.date}</span>
                                 <h5 className='mt-4'>{blog.title}</h5>
-                                <a href={blog.link} className="blog-btn">Read More</a>
+                                <Link to='/blog' className="blog-btn">Read More</Link>
                                 <div className='blog-btn-line'></div>
                             </div>
                         </div>

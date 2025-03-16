@@ -1,20 +1,11 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import Breadcrumb from '../../../components/Breadcrumb'
 
 export default function Contact() {
     return (
         <main className='container-fluid bg-light p-0'>
             {/* Breadcrumb Section Begin */}
-            <section className="breadcrumb-option" style={{ backgroundColor: '#f3f2ee', padding: "40px 0px" }}>
-                <div className="container">
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><Link to='/' >Home</Link></li>
-                            <li class="breadcrumb-item active" aria-current="page">Contact</li>
-                        </ol>
-                    </nav>
-                </div>
-            </section>
+            <Breadcrumb />
 
             {/* Contact Section Begin */}
             <section>

@@ -1,8 +1,8 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { Carousel } from 'antd';
 import about01 from "../../../assets/images/about-01.jpg";
 import about02 from "../../../assets/images/about-02.jpg";
+import Breadcrumb from '../../../components/Breadcrumb';
 
 
 const contentStyle = {
@@ -15,16 +15,7 @@ export default function About() {
     return (
         <main className='container-fluid bg-light p-0'>
             {/* Breadcrumb Section Begin */}
-            <section className="breadcrumb-option" style={{ backgroundColor: '#f3f2ee', padding: "40px 0px" }}>
-                <div className="container">
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><Link to='/' >Home</Link></li>
-                            <li class="breadcrumb-item active" aria-current="page">About</li>
-                        </ol>
-                    </nav>
-                </div>
-            </section>
+            <Breadcrumb />
 
             <section>
                 <div className='container py-5'>
@@ -69,12 +60,13 @@ export default function About() {
                                 everyday wear, and ensuring that every piece reflects our dedication to quality and craftsmanship. At Cozera Store, we strive to
                                 create a seamless shopping experience, offering exceptional customer service and a brand that truly values its customers.
                                 Our mission is simple: to make fashion effortless, empowering, and enjoyable for all.
-                                <blockquote className="blockquote mt-4 fs-6 border-start border-3 border-secondary">
-                                    <p className='ms-2'>Creativity is just connecting things. When you ask creative people how they did something, they feel a little guilty because
-                                        they didn't really do it, they just saw something. It seemed obvious to them after a while.</p>
-                                    <footer className="blockquote-footer ms-2">Steve Job’s</footer>
-                                </blockquote>
                             </p>
+                            <blockquote className="blockquote mt-4 fs-6 border-start border-3 border-secondary">
+                                <p className='ms-2 about-story'>Creativity is just connecting things. When you ask creative people how they did something, they feel a little guilty because
+                                    they didn't really do it, they just saw something. It seemed obvious to them after a while.</p>
+                                <footer className="blockquote-footer ms-2 ">Steve Job’s</footer>
+                            </blockquote>
+
                         </div>
                     </div>
                 </div>
