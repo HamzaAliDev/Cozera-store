@@ -4,8 +4,12 @@ import { IoIosSearch } from 'react-icons/io'
 import { HiOutlineAdjustments } from "react-icons/hi";
 import Products from '../../../components/Products';
 import Breadcrumb from '../../../components/Breadcrumb';
+import { useProductStore } from '../../../store/useProductStore';
+import { BiLoader } from 'react-icons/bi';
 
 export default function Shop() {
+    const { searchProduct, searchProductLoading } = useProductStore()
+    const [search, setSearch] = useState("");
     const [inputValue, setInputValue] = useState(1);
     const [activeSize, setActiveSize] = useState(""); // State for Size
     const [activeTag, setActiveTag] = useState(""); // State for Tag
@@ -21,6 +25,16 @@ export default function Shop() {
         setInputValue(newValue);
     };
 
+    const handleSearchSubmit = async (e) => {
+        e.preventDefault();
+        let searchValue = search.trim();
+
+        if (searchValue) {
+            await searchProduct(searchValue);
+        } else {
+            setSearch("");
+        }
+    }
     return (
         <main className='container-fluid bg-light p-0'>
             {/* Breadcrumb Section Begin */}
@@ -45,9 +59,9 @@ export default function Shop() {
                         <div className="my-3">
                             <div className="shop__sidebar">
                                 <div className="shop__sidebar__search ">
-                                    <form action="#">
-                                        <input type="text" placeholder="Search..." />
-                                        <button type="submit" className='search-btn'><IoIosSearch size={20} /></button>
+                                    <form >
+                                        <input type="text" placeholder="Search..." name='search' value={search} onChange={(e) => setSearch(e.target.value)} />
+                                        <button className='search-btn' onClick={handleSearchSubmit}><IoIosSearch size={20} /></button>
                                     </form>
                                 </div>
                                 <div className="shop__sidebar__filter mt-4">
@@ -195,7 +209,7 @@ export default function Shop() {
                         </div>
                         <div className="col-lg-9 col-md-9 col=sm-12 bg-white">
                             <div className="row">
-                                <Products large={4} medium={6} />
+                                {searchProductLoading ? <BiLoader /> : <Products large={4} medium={6} showLoadMore={true} />}
                             </div>
                         </div>
                     </div>

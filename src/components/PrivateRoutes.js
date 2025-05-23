@@ -1,21 +1,17 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useAuthContext } from '../contexts/AuthContext';
 
 export default function PrivateRoutes({ Component }) {
-    const user  = useSelector(state => state.authSlice.user)
+    const { user} = useAuthContext()
+    
+    // Check if the user has the 'admin' role
+    const isAdmin = user.role.includes('admin')
 
-    // Check if user 
-        if (!user || !user.roles || !Array.isArray(user.roles)) {
-            return <Navigate to='/' />
-        }
-    
-        // Check if the user has the 'admin' role
-        const isAdmin = user.roles.includes('admin')
-    
-        if (!isAdmin) { 
-            return <Navigate to='/' /> 
-        }
+    // console.log("user on provate route", user)
+    if (!isAdmin) {
+        return <Navigate to='/' />
+    }
 
     return (
         <Component />

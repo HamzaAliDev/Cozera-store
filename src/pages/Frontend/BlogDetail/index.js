@@ -4,6 +4,11 @@ import blogDesc from '../../../assets/images/blog-des-01.jpg';
 import Breadcrumb from '../../../components/Breadcrumb';
 
 export default function BlogDetail() {
+
+    const handleCommentSubmit = (e) => {
+        e.preventDefault();
+        window.toastify("Comment submitted successfully", "success")
+    }
     return (
         <main className='container-fluid bg-light p-0'>
             {/* Breadcrumb Section Begin */}
@@ -69,7 +74,7 @@ export default function BlogDetail() {
                         <div className="col-lg-8 col-md-8 col-sm-12 offset-lg-2 offset-md-2">
                             <h2 className='comment-heading fs-4 text-uppercase text-center'>Leave a Comment</h2>
                             <p className='text-secondary text-center'>Your email address will not be published. Required fields are marked *</p>
-                            <form action="#" className="contact__form">
+                            <form onSubmit={handleCommentSubmit} className="contact__form">
                                 <div className="row">
                                     <div className="col-lg-6">
                                         <input type="text" className='contact-input' placeholder="Name *" />

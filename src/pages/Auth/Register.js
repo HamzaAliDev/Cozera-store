@@ -1,17 +1,16 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button, Card, Input } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
-import { register } from '../../store/slices/authSlice';
+import { useAuthStore } from '../../store/useAuthStore';
 
 const initialState = { name: '', email: '', password: '' };
 const isValidEmail = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g;
 
 export default function Register() {
+    const { register } = useAuthStore();
     const [state, setState] = useState(initialState);
     const [isProcessing, setIsProcessing] = useState(false)
-    const dispatch = useDispatch();
     const navigate = useNavigate();
 
     // handle state
@@ -35,19 +34,16 @@ export default function Register() {
             email,
             password
         }
-
         setIsProcessing(true);
         try {
-            const resultAction = await dispatch(register(data))
-           
-            // Check if registration was successful
-            if (register.fulfilled.match(resultAction)) {
-                navigate('/'); // Navigate only if successful
+            const res = await register(data)
+            if (!res) {
+                setState(initialState)
+                navigate('/')
             }
 
         } finally {
             setIsProcessing(false);
-            setState(initialState);
         }
     };
 

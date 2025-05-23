@@ -3,22 +3,36 @@ import './App.scss';
 import 'bootstrap/dist/js/bootstrap.bundle';
 import Routes from './pages/Routes';
 import ScreenLoader from './components/ScreenLoader';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchUser } from './store/slices/authSlice';
+import { useAuthContext } from './contexts/AuthContext';
+import { useProductStore } from './store/useProductStore';
+import { useWishlistStore } from './store/useWishlistStore';
+import { useCartStore } from './store/useCartStore';
+
 
 function App() {
-  const dispatch = useDispatch();
-  const { isAppLoading } = useSelector(store => store.authSlice)
+  const { isAppLoading, user } = useAuthContext();
+  const { fetchProducts } = useProductStore();
+  const { initializeWishlist } = useWishlistStore();
+  const { initializeCart } = useCartStore();
+
 
 
   useEffect(() => {
-    dispatch(fetchUser()); // Fetch user on page load
-  }, [dispatch]);
-  return (
-    <>
-      {!isAppLoading ? <Routes /> : <ScreenLoader />}
-    </>
-  );
+    fetchProducts();
+  }, [fetchProducts]);
+
+  useEffect(() => {
+    if (user) {
+      initializeWishlist(user._id);
+      initializeCart(user._id);
+    }
+  }, [user, initializeWishlist, initializeCart])
+
+  if (isAppLoading) {
+    return <ScreenLoader />
+  }
+
+  return <Routes />
 }
 
 export default App;

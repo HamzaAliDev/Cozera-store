@@ -1,18 +1,59 @@
-import React, { useState } from 'react'
-import thumb01 from '../../../assets/images/thumb-1.png'
-import thumb02 from '../../../assets/images/thumb-2.png'
-import thumb03 from '../../../assets/images/thumb-3.png'
-import thumb04 from '../../../assets/images/thumb-4.png'
+import React, { useEffect, useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom';
 import { Divider, InputNumber, Rate } from 'antd'
 import { GoHeart } from 'react-icons/go'
+import { GoHeartFill } from "react-icons/go";
+import { RiLoader2Line } from "react-icons/ri";
 import Products from '../../../components/Products'
 import Breadcrumb from '../../../components/Breadcrumb'
+import axios from 'axios';
+import { useWishlistStore } from '../../../store/useWishlistStore';
+import { useAuthContext } from '../../../contexts/AuthContext';
+import { useCartStore } from '../../../store/useCartStore';
 
 export default function ShopDetail() {
-    const [image, setImage] = useState(thumb01);
+    const { productId } = useParams();
+    const { user } = useAuthContext();
+    const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlistStore();
+    const { addToCart } = useCartStore();
+    const [product, setProduct] = useState(null);
+    const [image, setImage] = useState([]);
     const [activeSize, setActiveSize] = useState(""); // State for Size
     const [activeColor, setActiveColor] = useState(""); // State for Color
+    const [quantity, setQuantity] = useState(1);
     const [activeTab, setActiveTab] = useState("reviews");
+    const [loading, setLoading] = useState(true);
+    const navigate = useNavigate();
+    const isWishlisted = isInWishlist(productId);
+
+
+    useEffect(() => {
+        if (!productId || productId.trim() === '') {
+            navigate('/shop');
+        }
+    }, [productId, navigate]);
+
+    useEffect(() => {
+        const fetchProduct = async () => {
+            try {
+                const res = await axios.get(`http://localhost:8000/products/${productId}`);
+                const data = res.data.data;
+                setProduct(data);
+                setImage(data.images?.[0])
+            } catch (error) {
+                console.error('Failed to fetch product:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchProduct();
+    }, [productId]);
+
+
+    if (loading) return <><p className="text-center py-5"><RiLoader2Line /></p></>;
+
+    if (!product) return <p className="text-center py-5">Product not found</p>;
 
     const handleSizeClick = (size) => {
         setActiveSize(size);
@@ -31,10 +72,50 @@ export default function ShopDetail() {
         );
     };
 
+    const handleWishlistToggle = () => {
+
+        if (isInWishlist(productId)) {
+            removeFromWishlist(productId);
+            window.toastify("Removed from wishlist", 'warning');
+        } else {
+            if (!user?._id) return window.toastify("Please log in to add to wishlist", 'error');
+
+            addToWishlist(user._id, {
+                _id: product._id,
+                name: product.name,
+                price: product.price,
+                images: product.images,
+            });
+            window.toastify("Added to wishlist", 'success');
+        }
+    };
+
+
+    const handleAddToCart = () => {
+        if (!activeColor || !activeSize) {
+            return window.toastify("Please select color and size", 'warning');
+        }
+
+        const item = {
+            productId: product._id,
+            name: product.name,
+            price: product.price,
+            image: product.images?.[0],
+            color: activeColor,
+            size: activeSize,
+            quantity,
+        };
+
+        if (!user?._id) return window.toastify("Please log in to add to cart", 'error');
+
+        addToCart(user._id, item);
+        window.toastify("Added to cart", 'success');
+    };
+
     return (
         <main className='container-fluid bg-light p-0'>
             {/* Breadcrumb Section Begin */}
-            <Breadcrumb />
+            <Breadcrumb productName={product.name} />
 
             {/* Hero Section Begin */}
             <section className="hero-shopDetail-section" style={{ padding: "40px 0px" }}>
@@ -50,81 +131,102 @@ export default function ShopDetail() {
                         {/* Thumbnail Images - Appears below on small screens */}
                         <div className="col-lg-3 col-md-2 col-sm-12 px-lg-5 p-md-3 order-lg-1 order-md-1 order-sm-2">
                             <div className="hero-small-images d-flex flex-sm-row flex-lg-column flex-md-column justify-content-center">
-                                <img src={thumb01} alt="Small 1" className="img-fluid thumb-images" onClick={() => setImage(thumb01)} />
-                                <img src={thumb02} alt="Small 2" className="img-fluid thumb-images" onClick={() => setImage(thumb02)} />
-                                <img src={thumb03} alt="Small 3" className="img-fluid thumb-images" onClick={() => setImage(thumb03)} />
-                                <img src={thumb04} alt="Small 4" className="img-fluid thumb-images" onClick={() => setImage(thumb04)} />
-                            </div>
-                        </div>
-
-                    </div>
-
-
-                    <div className="row px-lg-5 mt-5 border-top pt-5 text-center">
-                        <h4 className='fw-bold'>Hooded thermal anorak</h4>
-                        <div className="d-flex align-items-center justify-content-center">
-                            <Rate disabled defaultValue={4} className="custom-rate" />
-                            <p className='mb-0'>-5 Reviews</p>
-                        </div>
-                        <h1 className='fw-bold my-4'>$59.90</h1>
-                        <p className='product-short-desription px-lg-5'>Coat with quilted lining and an adjustable hood. Featuring long sleeves with adjustable cuff tabs, adjustable asymmetric hem with elastic side tabs and a front zip fastening with placket.</p>
-                    </div>
-
-                    <div className="row mt-5 ">
-                        <div className="col-lg-6 col-12 d-flex justify-content-lg-end justify-content-center align-items-center mb-3">
-                            <p className='mb-1'>Size:</p>
-                            <div className="size-btn-container">
-                                {["S", "M", "L", "XL", "2XL", "3XL"].map((size) => (
-                                    <button
-                                        key={size}
-                                        className={`btn ${activeSize === size ? "active" : ""}`}
-                                        onClick={() => handleSizeClick(size)}
-                                    >
-                                        {size}
-                                    </button>
-                                ))}
-                            </div>
-                        </div>
-
-                        <div className="col-lg-6 col-12 d-flex justify-content-lg-start justify-content-center align-items-center mb-3">
-                            <p className='mb-1'>Color:</p>
-                            <div className="color-container d-flex justify-content-center align-items-center">
-                                {["#000000", "#FFFFFF", "#FF0000", "#00FF00", "#0000FF"].map((color) => (
-                                    <div
-                                        key={color}
-                                        className="color-circle"
+                                {product.images.map((img, index) => (
+                                    <img
+                                        key={index}
+                                        src={img}
+                                        alt={`Small ${index + 1}`}
+                                        className={`img-fluid thumb-images ${image === img ? "active-thumb" : ""}`}
+                                        onClick={() => setImage(img)}
                                         style={{
-                                            backgroundColor: color,
-                                            width: "27px",
-                                            height: "27px",
-                                            borderRadius: "50%",
-                                            margin: "0 3px",
                                             cursor: "pointer",
-                                            border: activeColor === color ? "2px solid #000" : "none"
+                                            border: image === img ? "1px solid #000" : "1px solid #ccc",
+                                            marginBottom: "3px",
+                                            borderRadius: "4px"
                                         }}
-                                        onClick={() => setActiveColor(color)}
                                     />
                                 ))}
                             </div>
                         </div>
                     </div>
 
+
+                    <div className="row px-lg-5 mt-5 border-top pt-5 text-center">
+                        <h4 className='fw-bold'>{product.name}</h4>
+                        <div className="d-flex align-items-center justify-content-center">
+                            <Rate disabled defaultValue={4} className="custom-rate" />
+                            <p className='mb-0'>{product.numReviews} Reviews</p>
+                        </div>
+                        <h1 className='fw-bold my-4'>${product.price}</h1>
+                        <p className='product-short-desription px-lg-5'>{product.description}</p>
+                    </div>
+
+                    <div className="row mt-5 ">
+                        {/* Colors */}
+                        <div className="col-lg-6 col-12 d-flex justify-content-lg-end justify-content-center align-items-center mb-3">
+                            <p className='mb-1 me-2'>Color:</p>
+                            <div className="color-container d-flex justify-content-center align-items-center">
+                                {product.variants.map((variant) => (
+                                    <div
+                                        key={variant._id}
+                                        className="color-circle p-2"
+                                        style={{
+                                            margin: "0 3px",
+                                            cursor: "pointer",
+                                            border: activeColor === variant.color ? "2px solid #000" : "1px solid #ccc"
+                                        }}
+                                        onClick={() => {
+                                            setActiveColor(variant.color);
+                                            setActiveSize(""); // reset size when color changes
+                                        }}
+                                    ><p className='fs-6 m-0'>{variant.color}</p></div>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* Sizes */}
+                        <div className="col-lg-6 col-12 d-flex justify-content-lg-start justify-content-center align-items-center mb-3">
+                            <p className='mb-1 me-2'>Size:</p>
+                            <div className="size-btn-container">
+                                {product.variants.find((v) => v.color === activeColor)?.sizes.map((s) => (
+                                    <button
+                                        key={s._id}
+                                        className={`btn ${activeSize === s.size ? "active" : ""}`}
+                                        onClick={() => handleSizeClick(s.size)}
+                                    >
+                                        {s.size}
+                                    </button>
+                                )) || <p className="text-muted">Please select a color first</p>}
+                            </div>
+                        </div>
+
+                    </div>
+
                     <div className="row">
                         <div className="col-lg-6 col-12 d-flex justify-content-lg-end justify-content-center align-items-center mb-3">
                             <p className='mb-1'>Quantity:</p>
                             <span className='border'>
-                                <InputNumber min={1} max={10} defaultValue={1}
+                                <InputNumber min={1} max={5}
                                     variant="underlined"
+                                    value={quantity}
+                                    onChange={(val) => setQuantity(val)}
                                 />
                             </span>
                         </div>
                         <div className="col-lg-6 col-12 d-flex justify-content-lg-start justify-content-center align-items-center mb-3">
-                            <button className='btn btn-dark py-3 px-5 rounded-0'>Add to cart</button>
+                            <button className='btn btn-dark py-3 px-5 rounded-0' onClick={handleAddToCart}>Add to cart</button>
                         </div>
                     </div>
 
                     <div className="text-center">
-                        <button className='btn custom-wishlist-btn'><GoHeart className='me-2 mb-1' size={20} />Add to Wishlist</button>
+                        <button className='btn custom-wishlist-btn' onClick={handleWishlistToggle}>
+                            {isWishlisted ? (
+                                <GoHeartFill className='me-2 mb-1' size={20} color="red" />
+                            ) : (
+                                <GoHeart className='me-2 mb-1' size={20} />
+                            )}
+                            {isWishlisted ? "Wishlisted" : "Add to Wishlist"}
+                        </button>
                     </div>
 
                 </div>

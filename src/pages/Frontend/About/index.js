@@ -5,12 +5,6 @@ import about02 from "../../../assets/images/about-02.jpg";
 import Breadcrumb from '../../../components/Breadcrumb';
 
 
-const contentStyle = {
-    color: '#fff',
-    lineHeight: '160px',
-    textAlign: 'center',
-    background: '#525252',
-};
 export default function About() {
     return (
         <main className='container-fluid bg-light p-0'>

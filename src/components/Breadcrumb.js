@@ -2,7 +2,7 @@ import React from 'react'
 import { Link, useLocation } from 'react-router-dom';
 
 
-export default function Breadcrumb() {
+export default function Breadcrumb({ productName }) {
     const location = useLocation();
     const pathnames = location.pathname.split('/').filter(x => x); // Remove empty values
 
@@ -18,12 +18,17 @@ export default function Breadcrumb() {
                             const routeTo = `/${pathnames.slice(0, index + 1).join('/')}`;
                             const isLast = index === pathnames.length - 1;
 
+                            // If it's the last segment and we have a productName, display that instead
+                            const displayName = isLast && productName
+                                ? productName
+                                : name.charAt(0).toUpperCase() + name.slice(1);
+
                             return (
                                 <li key={index} className={`breadcrumb-item ${isLast ? 'active' : ''}`} aria-current={isLast ? "page" : undefined}>
                                     {isLast ? (
-                                        <span>{name.charAt(0).toUpperCase() + name.slice(1)}</span> // Capitalize name
+                                        <span>{displayName}</span> // Capitalize name
                                     ) : (
-                                        <Link to={routeTo}>{name.charAt(0).toUpperCase() + name.slice(1)}</Link>
+                                        <Link to={routeTo}>{displayName}</Link>
                                     )}
                                 </li>
                             );

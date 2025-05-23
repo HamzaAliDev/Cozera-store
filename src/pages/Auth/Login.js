@@ -2,19 +2,19 @@ import React, { useState } from 'react'
 import { Button, Card, Input, Modal } from 'antd'
 import { UserOutlined } from '@ant-design/icons';
 import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { login } from '../../store/slices/authSlice';
+import { useAuthStore } from '../../store/useAuthStore';
 
 const initialState = { email: '', password: '' };
 
 export default function Login() {
+    const { login } = useAuthStore();
     const [state, setState] = useState(initialState)
     const [isProcessing, setIsProcessing] = useState(false)
     const [isSendProcessing, setIsSendProcessing] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [failedAttempts, setFailedAttempts] = useState(0); // Track failed login attempts
     const navigate = useNavigate();
-    const dispatch = useDispatch();
+
 
     // handle state.
     const handleChange = e => setState(s => ({ ...s, [e.target.name]: e.target.value }))
@@ -28,8 +28,6 @@ export default function Login() {
         if (email === '' || password === '') { return window.toastify("All fields are must required", 'error') }
         if (password.length < 6) { return window.toastify("Password must contain 6 chars", 'error') }
 
-        setIsProcessing(true);
-
         const data = {
             email,
             password
@@ -37,20 +35,18 @@ export default function Login() {
 
         setIsProcessing(true);
         try {
-            const resultAction = await dispatch(login(data))
+            const res = await login(data)
 
-            // Check if registration was successful
-            if (login.fulfilled.match(resultAction)) {
-                setState(initialState);
-                setFailedAttempts(0); // Reset failed attempts on success
-                navigate('/'); // Navigate only if successful
-            } else {
-                setFailedAttempts(prev => prev + 1); // Increase failed attempts
+            if(!res){
+                setState(initialState)
+                navigate('/')
             }
 
+            if(res === 'Invalid credentials'){
+                setFailedAttempts(prev => prev + 1); 
+            }
         } finally {
             setIsProcessing(false);
-
         }
     }
 
@@ -61,12 +57,14 @@ export default function Login() {
         setIsModalOpen(false);
     };
 
+    // more working on it
     const handlePasswordReset = () => {
         const { email } = state;
         if (!email) {
             window.toastify("Please enter your email to reset your password", 'error');
             return;
         }
+        setIsSendProcessing(true);
 
 
     }

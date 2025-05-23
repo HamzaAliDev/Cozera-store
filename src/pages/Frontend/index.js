@@ -12,6 +12,7 @@ import BlogDetail from './BlogDetail'
 import Checkout from './Checkout'
 import ShoppingCart from './ShoppingCart'
 import Wishlist from './Wishlist'
+import OrderHistory from './OrderHistory'
 
 export default function Frontend() {
     return (
@@ -23,11 +24,12 @@ export default function Frontend() {
                 <Route path='blog' element={<Blog />} />
                 <Route path='contact' element={<Contact/>} />
                 <Route path='about' element={<About/>} />
-                <Route path='shop-detail' element={<ShopDetail/>} />
+                <Route path='shop-detail/:productId' element={<ShopDetail/>} />
                 <Route path='blog-detail' element={<BlogDetail/>} />
                 <Route path='checkout' element={<Checkout/>} />
                 <Route path='shopping-cart' element={<ShoppingCart/>} />
                 <Route path='wishlist' element={<Wishlist/>} />
+                <Route path='order-history' element={<OrderHistory/>} />
             </Routes>
             <Footer />
         </>

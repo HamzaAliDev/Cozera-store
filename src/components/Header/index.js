@@ -1,19 +1,25 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
 import { IoIosSearch } from "react-icons/io";
 import { GoHeart } from "react-icons/go";
 import { RiShoppingBag4Fill } from "react-icons/ri";
 import { BsList } from "react-icons/bs";
-import { logout } from '../../store/slices/authSlice';
+import { useAuthContext } from '../../contexts/AuthContext';
+import { Badge } from 'antd';
+import { useWishlistStore } from '../../store/useWishlistStore';
+import { useCartStore } from '../../store/useCartStore';
 
 export default function Header() {
     const location = useLocation(); // Get current route
-    const user = useSelector(store => store.authSlice.user);
-    const dispatch = useDispatch();
+    const { user, handleLogout } = useAuthContext()
+    const { wishlist } = useWishlistStore()
+    const { cart } = useCartStore();
 
-    const handleLogout = () => {
-        dispatch(logout());
+    const checkAdmin = user?.role[1] === 'admin' ? true : false
+
+
+    const handleLogoutClick = () => {
+        handleLogout();
     }
 
     return (
@@ -30,8 +36,9 @@ export default function Header() {
                             <div className="col-lg-6 col-md-5">
                                 <div className="header__top__right">
                                     <div className="header__top__links">
+                                        {checkAdmin && <Link to='/dashboard' className='Links'>Dashboard</Link>}
                                         {user ?
-                                            <span className='Links' role="button" tabIndex="0" onClick={handleLogout}>Sign out</span>
+                                            <span className='Links' role="button" tabIndex="0" onClick={handleLogoutClick}>Sign out</span>
                                             :
                                             <Link to='/auth/login' className='Links'>Sign in</Link>
                                         }
@@ -59,9 +66,10 @@ export default function Header() {
                                     <li className={location.pathname === '/about' ? 'active' : ''}><Link className='link-decor'>Pages</Link>
                                         <ul className="dropdown">
                                             <li><Link to='about' className='link-decor'>About Us</Link></li>
-                                            <li><Link to="shop-detail" className='link-decor'>Shop Details</Link></li>
+                                            {/* <li><Link to="shop-detail" className='link-decor'>Shop Details</Link></li> */}
                                             <li><Link to='blog-detail' className='link-decor'>Blog Details</Link></li>
                                             <li><Link to='checkout' className='link-decor'>Check Out</Link></li>
+                                            <li><Link to='order-history' className='link-decor'>Order History</Link></li>
                                         </ul>
                                     </li>
                                 </ul>
@@ -70,8 +78,8 @@ export default function Header() {
                         <div className="col-lg-3 col-md-3">
                             <div className="header__nav__option">
                                 <Link><IoIosSearch size={24} data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop" /></Link>
-                                <Link to='wishlist'><GoHeart size={22} /></Link>
-                                <Link to='shopping-cart' ><RiShoppingBag4Fill size={22} /></Link>
+                                <Badge count={wishlist.length}><Link to='wishlist' className='p-0 m-0'><GoHeart size={22} /></Link></Badge>
+                                <Badge count={cart.length}><Link to='shopping-cart' className='ms-4 me-0' ><RiShoppingBag4Fill size={22} /></Link></Badge>
                             </div>
                         </div>
                     </div>
@@ -99,16 +107,17 @@ export default function Header() {
                     </div>
                     <div className="offcanvas-body">
                         <div className='text-center'>
-                            {user ? <span className='m-5 text-decoration-none text-dark' role='button' tabIndex='0' onClick={handleLogout}>Logout</span>
+                            {checkAdmin && <Link to='/dashboard' className='my-5 mx-3 text-decoration-none text-dark'>Dashboard</Link>}
+                            {user ? <span className='my-5 mx-3 text-decoration-none text-dark' role='button' tabIndex='0' onClick={handleLogoutClick}>Logout</span>
                                 :
                                 <Link to='/auth/login' className='m-5 text-decoration-none text-dark'>Sign in</Link>
                             }
-                            <Link to='/' className='m-5 text-decoration-none text-dark'>FAQs</Link>
+                            <Link to='/' className='my-5 mx-3 text-decoration-none text-dark'>FAQs</Link>
                         </div>
                         <div className='text-center mt-4'>
                             <Link className='m-4 text-dark'><IoIosSearch size={22} data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop" /></Link>
-                            <Link to='wishlist' className='m-4 text-dark'><GoHeart size={22} /></Link>
-                            <Link to='shopping-cart' className='m-4 text-dark'><RiShoppingBag4Fill size={22} /></Link>
+                            <Link to='wishlist' className='m-4 text-dark'><Badge count={wishlist.length}><GoHeart size={22} /></Badge></Link>
+                            <Link to='shopping-cart' className='m-4 text-dark'><Badge count={cart.length}><RiShoppingBag4Fill size={22} /></Badge></Link>
                         </div>
                         <div className='mt-4'>
                             <Link to='/' className='text-dark text-decoration-none d-block mb-1'>Home</Link>
@@ -118,9 +127,10 @@ export default function Header() {
                             <Link className='text-dark text-decoration-none d-block mb-1 dropdown-toggle' data-bs-toggle="dropdown" >Pages</Link>
                             <ul className="dropdown-menu">
                                 <li><Link to='about' className='dropdown-item text-dark text-decoration-none d-block mb-1'>About Us</Link></li>
-                                <li><Link to='shop-detail' className='dropdown-item text-dark text-decoration-none d-block mb-1'>Shop Detail</Link></li>
+                                {/* <li><Link to='shop-detail' className='dropdown-item text-dark text-decoration-none d-block mb-1'>Shop Detail</Link></li> */}
                                 <li><Link to='blog-detail' className='dropdown-item text-dark text-decoration-none d-block mb-1'>Blog Detail</Link></li>
                                 <li><Link to='checkout' className='dropdown-item text-dark text-decoration-none d-block mb-1'>Checkout</Link></li>
+                                <li><Link to='order-history' className='dropdown-item text-dark text-decoration-none d-block mb-1'>Order History</Link></li>
                             </ul>
                         </div>
                         <div className='mt-4'>

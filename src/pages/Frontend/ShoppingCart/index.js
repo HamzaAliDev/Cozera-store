@@ -1,10 +1,39 @@
-import React from 'react'
-import productImg from '../../../assets/images/banner-1.jpg'
+import React, { useEffect, useState } from 'react'
 import { InputNumber } from 'antd'
 import { ImCross } from "react-icons/im";
 import Breadcrumb from '../../../components/Breadcrumb';
+import { useCartStore } from '../../../store/useCartStore';
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function ShoppingCart() {
+    const { cart, removeFromCart, updateQuantity } = useCartStore()
+    const [quantities, setQuantities] = useState({});
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const initialQuantities = {};
+        cart.forEach((item) => {
+            const key = `${item.productId}-${item.color}-${item.size}`;
+            initialQuantities[key] = item.quantity;
+        });
+        setQuantities(initialQuantities);
+    }, [cart]);
+
+    const handleRemoveFromCart = (productId, color, size) => {
+        removeFromCart(productId, color, size);
+    }
+
+    const getCartTotal = () => {
+        return cart.reduce((acc, item) => {
+            const key = `${item.productId}-${item.color}-${item.size}`;
+            const quantity = quantities[key] || item.quantity;
+            return acc + item.price * quantity;
+        }, 0).toFixed(2);
+    };
+
+    const handleCheckout = () => {
+        navigate('/checkout');
+    };
     return (
         <main className='container-fluid bg-light p-0'>
             {/* Breadcrumb Section Begin */}
@@ -25,84 +54,48 @@ export default function ShoppingCart() {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr >
-                                            <td>
-                                                <div className="d-flex align-items-center ">
-                                                    <img src={productImg} alt="" width={110} />
+                                        {cart.map((item, index) => (
+                                            <tr key={index}>
+                                                <td className="d-flex align-items-center ">
+                                                    <img src={item.image} alt="" width={110} />
                                                     <div className="ms-3 product-info">
-                                                        <p>Black jacket</p>
-                                                        <p>$60.00</p>
+                                                        <p className='m-0 p-0'>{item.name}</p>
+                                                        <p className='m-0 p-0 mb-2'>${item.price}</p>
+                                                        <p className='m-0 p-0'>size: {item.size}</p>
+                                                        <p className='m-0 p-0'>color: {item.color}</p>
                                                     </div>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <span className='border py-2'>
-                                                    <InputNumber min={1} max={10} defaultValue={1}
-                                                        variant="underlined"
-                                                    />
-                                                </span>
-                                            </td>
-                                            <td>$60.00</td>
-                                            <td>
-                                                <div className="px-1 py-3 rounded-5 d-flex align-items-center justify-content-center" style={{ cursor: 'pointer', backgroundColor: '#f3f2ee' }}>
-                                                    <ImCross />
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr >
-                                            <td>
-                                                <div className="d-flex align-items-center ">
-                                                    <img src={productImg} alt="" width={110} />
-                                                    <div className="ms-3 product-info">
-                                                        <p>Black jacket</p>
-                                                        <p>$60.00</p>
+                                                </td>
+                                                <td>
+                                                    <span className='border py-2'>
+                                                        <InputNumber
+                                                            min={1}
+                                                            max={5}
+                                                            variant='underlined'
+                                                            value={quantities[`${item.productId}-${item.color}-${item.size}`]}
+                                                            onChange={(value) => {
+                                                                const key = `${item.productId}-${item.color}-${item.size}`;
+                                                                setQuantities((prev) => ({
+                                                                    ...prev,
+                                                                    [key]: value,
+                                                                }));
+                                                                updateQuantity(item.productId, item.color, item.size, value);
+                                                            }}
+                                                        />
+                                                    </span>
+                                                </td>
+                                                <td>${(item.price * (quantities[`${item.productId}-${item.color}-${item.size}`] || item.quantity)).toFixed(2)}</td>
+                                                <td>
+                                                    <div className="px-1 py-3 rounded-5 d-flex align-items-center justify-content-center" style={{ cursor: 'pointer', backgroundColor: '#f3f2ee' }} onClick={() => handleRemoveFromCart(item.productId, item.color, item.size)}>
+                                                        <ImCross />
                                                     </div>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <span className='border py-2'>
-                                                    <InputNumber min={1} max={10} defaultValue={1}
-                                                        variant="underlined"
-                                                    />
-                                                </span>
-                                            </td>
-                                            <td>$60.00</td>
-                                            <td>
-                                                <div className="px-1 py-3 rounded-5 d-flex align-items-center justify-content-center" style={{ cursor: 'pointer', backgroundColor: '#f3f2ee' }}>
-                                                    <ImCross />
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr >
-                                            <td>
-                                                <div className="d-flex align-items-center ">
-                                                    <img src={productImg} alt="" width={110} />
-                                                    <div className="ms-3 product-info">
-                                                        <p>Black jacket</p>
-                                                        <p>$60.00</p>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <span className='border py-2'>
-                                                    <InputNumber min={1} max={10} defaultValue={1}
-                                                        variant="underlined"
-                                                    />
-                                                </span>
-                                            </td>
-                                            <td>$60.00</td>
-                                            <td>
-                                                <div className="px-1 py-3 rounded-5 d-flex align-items-center justify-content-center" style={{ cursor: 'pointer', backgroundColor: '#f3f2ee' }}>
-                                                    <ImCross />
-                                                </div>
-                                            </td>
-                                        </tr>
-
+                                                </td>
+                                            </tr>
+                                        ))}
                                     </tbody>
                                 </table>
                             </div>
 
-                            <button className='btn mt-5 py-2 px-3 btn-outline-dark rounded-0'>Continue Shopping</button>
+                            <Link to='/shop'><button className='btn mt-5 py-2 px-3 btn-outline-dark rounded-0'>Continue Shopping</button></Link>
                         </div>
 
                         <div className="col-lg-4 col-md-12 col-sm-12">
@@ -112,6 +105,7 @@ export default function ShoppingCart() {
                                     <input
                                         type="text"
                                         placeholder="Coupon code"
+                                        disabled
                                         // value={couponCode}
                                         // onChange={(e) => setCouponCode(e.target.value)}
                                         className="coupen-input rounded-end-0 border-end-0"
@@ -126,7 +120,7 @@ export default function ShoppingCart() {
                                 <h5 className="card-title">Cart Totals</h5>
                                 <div className="mt-3 d-flex justify-content-between">
                                     <p>Subtotal</p>
-                                    <p>$180.00</p>
+                                    <p>${getCartTotal()}</p>
                                 </div>
                                 <div className="d-flex justify-content-between">
                                     <p>Shipping</p>
@@ -134,10 +128,10 @@ export default function ShoppingCart() {
                                 </div>
                                 <div className="d-flex justify-content-between">
                                     <p>Total</p>
-                                    <p>$180.00</p>
+                                    <p>${getCartTotal()}</p>
                                 </div>
                                 <div className="row mt-3">
-                                    <button className='btn py-3 btn-dark rounded-0 proceed-btn'>Proceed to Checkout</button>
+                                    <button className='btn py-3 btn-dark rounded-0 proceed-btn' onClick={handleCheckout}>Proceed to Checkout</button>
                                 </div>
                             </div>
                         </div>

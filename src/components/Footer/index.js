@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { MdOutlineEmail } from "react-icons/md";
 import paymentImg from '../../assets/images/payment.png';
 
 
 export default function Footer() {
-    const [email,setEmail] = useState('');
-    const year =  new Date().getFullYear();
+    const [email, setEmail] = useState('');
+    const year = new Date().getFullYear();
 
     const handleEmailChange = (e) => {
         setEmail(e.target.value);
@@ -16,7 +16,7 @@ export default function Footer() {
         e.preventDefault();
         window.toastify("Thanks for subscribing", 'success');
         setEmail('');
-    }     
+    }
 
     return (
         <footer className="footer">
@@ -60,7 +60,7 @@ export default function Footer() {
                                 <p>Be the first to know about new arrivals, look books, sales & promos!</p>
                                 <form action="#">
                                     <input type="text" placeholder="Your email" name='email' value={email} onChange={handleEmailChange} />
-                                        <button type="submit" onClick={handleSubmit}><MdOutlineEmail size={22} /></button>
+                                    <button type="submit" onClick={handleSubmit}><MdOutlineEmail size={22} /></button>
                                 </form>
                             </div>
                         </div>

@@ -1,17 +1,19 @@
 import React, { useState } from 'react'
 import { Layout, Menu } from 'antd'
-import { UserOutlined, UnorderedListOutlined, MessageOutlined, MailOutlined, } from '@ant-design/icons';
+import {  EditOutlined, MailOutlined, ProductOutlined, UnorderedListOutlined, } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 
 const { Sider } = Layout;
 export default function LayoutDesign() {
     const [collapsed, setCollapsed] = useState(false);
     const [selectedKey, setSelectedKey] = useState('0')
-    const navigate = useNavigate(); 
+    const navigate = useNavigate();
 
     // Layout components data
     const items = [
-        { key: '1', icon: <UserOutlined />, label: 'Users' },
+        { key: '1', icon: <ProductOutlined />, label: 'Products' },
+        { key: '2', icon: <EditOutlined />, label: 'Add Products' },
+        { key: '3', icon: <UnorderedListOutlined />, label: 'Orders' },
         // { key: '2', icon: <UnorderedListOutlined />, label: 'Table Bookings' },
         // { key: '3', icon: <UnorderedListOutlined />, label: 'Orders' },
         // { key: '4', icon: <UnorderedListOutlined />, label: 'Order History' },
@@ -25,14 +27,14 @@ export default function LayoutDesign() {
         setSelectedKey(key);
         switch (key) {
             case '1':
-                navigate('users');
+                navigate('products');
                 break;
-            // case '2':
-            //     navigate('table-bookings');
-            //     break;
-            // case '3':
-            //     navigate('orders');
-            //     break;
+            case '2':
+                navigate('add-products');
+                break;
+            case '3':
+                navigate('orders');
+                break;
             // case '4':
             //     navigate('order-history');
             //     break;
@@ -59,7 +61,7 @@ export default function LayoutDesign() {
                 <div className="demo-logo-vertical" />
                 <Menu theme="dark" selectedKeys={[selectedKey]} mode="inline" items={items} onClick={({ key }) => handleSelectedMenu(key)} />
             </Sider>
-       
+
         </>
     )
 }
