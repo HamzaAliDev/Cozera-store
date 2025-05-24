@@ -21,7 +21,7 @@ export default function Orders() {
     const fetchOrders = useCallback(async (page, pageSize) => {
         setLoading(true);
         try {
-            const res = await axios.get(`http://localhost:8000/orders/get?page=${page}&limit=${pageSize}`);
+            const res = await axios.get(`${process.env.React_APP_API_URL}/orders/get?page=${page}&limit=${pageSize}`);
             const fetchedOrders = res.data.data;
             const total = res.data.total;
 
@@ -92,7 +92,7 @@ export default function Orders() {
         try {
             const isoDate = newDeliverAt.toISOString();
 
-            const res = await axios.put(`http://localhost:8000/orders/update/${editingOrder.orderId}`, {
+            const res = await axios.put(`${process.env.React_APP_API_URL}/orders/update/${editingOrder.orderId}`, {
                 deliverAt: isoDate,
                 status: newStatus,
             });

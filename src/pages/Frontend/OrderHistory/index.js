@@ -15,7 +15,7 @@ export default function OrderHistory() {
 
     const fetchOrders = async (userId) => {
         try {
-            const response = await axios.get(`http://localhost:8000/orders/get/${userId}`);
+            const response = await axios.get(`${process.env.React_APP_API_URL}/orders/get/${userId}`);
             console.log(response.data);
             setOrders(response.data.data);
         } catch (error) {
@@ -55,7 +55,7 @@ export default function OrderHistory() {
         console.log('Review Data:', reviewData);
 
         try {
-            const response = await axios.post("http://localhost:8000/reviews/add", reviewData);
+            const response = await axios.post(`${process.env.React_APP_API_URL}/reviews/add`, reviewData);
             console.log(response.data);
 
             if (response.status === 201) {

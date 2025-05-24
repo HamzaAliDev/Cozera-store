@@ -14,7 +14,7 @@ export const useAuthStore = create((set) => ({
             set({ appLoading: true })
             const token = localStorage.getItem('token') || ''
             if (token) {
-                const response = await axios.get('http://localhost:8000/users/me', {
+                const response = await axios.get(`${process.env.React_APP_API_URL}/users/me`, {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
@@ -38,7 +38,7 @@ export const useAuthStore = create((set) => ({
 
     register: async (formdata) => {
         try {
-            const response = await axios.post('http://localhost:8000/users/register', formdata)
+            const response = await axios.post(`${process.env.React_APP_API_URL}/users/register`, formdata)
 
             if (response.status === 201) {
                 set({ isAuthenticated: true, user: response.data.data.user })
@@ -59,7 +59,7 @@ export const useAuthStore = create((set) => ({
 
     login: async (formData) => {
         try {
-            const response = await axios.post('http://localhost:8000/users/login', formData)
+            const response = await axios.post(`${process.env.React_APP_API_URL}/users/login`, formData)
 
             console.log("response data", response.data)
             if (response.status === 200) {
@@ -91,7 +91,7 @@ export const useAuthStore = create((set) => ({
     fetchAllUsers: async () => {
         try {
             set({ isFetchingUser: true })
-            const response = await axios.get('http://localhost:8000/users/')
+            const response = await axios.get(`${process.env.React_APP_API_URL}users/`)
 
             console.log("response data", response.data)
             if (response.status === 200) {
@@ -114,7 +114,7 @@ export const useAuthStore = create((set) => ({
         try {
             const data = { id, role }
             console.log("data", data)
-            const response = await axios.put('http://localhost:8000/users/update-profile', data )
+            const response = await axios.put(`${process.env.React_APP_API_URL}/users/update-profile`, data )
 
             console.log("response data", response.data)
             if (response.status === 200) {

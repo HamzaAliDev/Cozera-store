@@ -14,13 +14,7 @@ export default function LayoutDesign() {
         { key: '1', icon: <ProductOutlined />, label: 'Products' },
         { key: '2', icon: <EditOutlined />, label: 'Add Products' },
         { key: '3', icon: <UnorderedListOutlined />, label: 'Orders' },
-        // { key: '2', icon: <UnorderedListOutlined />, label: 'Table Bookings' },
-        // { key: '3', icon: <UnorderedListOutlined />, label: 'Orders' },
-        // { key: '4', icon: <UnorderedListOutlined />, label: 'Order History' },
-        // { key: '5', icon: <MessageOutlined />, label: 'User Feedback' },
         { key: '6', icon: <MailOutlined />, label: 'Users Email', },
-        // { key: '7', icon: <UnorderedListOutlined />, label: 'Menu List' },
-        // { key: '8', icon: <UnorderedListOutlined />, label: 'Add New Item' }
     ]
 
     const handleSelectedMenu = (key) => {
@@ -35,21 +29,9 @@ export default function LayoutDesign() {
             case '3':
                 navigate('orders');
                 break;
-            // case '4':
-            //     navigate('order-history');
-            //     break;
-            // case '5':
-            //     navigate('user-feedback');
-            //     break;
             case '6':
                 navigate('users-email');
                 break;
-            // case '7':
-            //     navigate('menu-list');
-            //     break;
-            // case '8':
-            //     navigate('add-new-item');
-            //     break;
             default:
             // navigate('/');
         }

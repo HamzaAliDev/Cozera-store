@@ -36,7 +36,7 @@ export default function ShopDetail() {
     useEffect(() => {
         const fetchProduct = async () => {
             try {
-                const res = await axios.get(`http://localhost:8000/products/${productId}`);
+                const res = await axios.get(`${process.env.React_APP_API_URL}/products/${productId}`);
                 const data = res.data.data;
                 setProduct(data);
                 setImage(data.images?.[0])

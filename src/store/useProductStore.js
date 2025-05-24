@@ -14,7 +14,7 @@ export const useProductStore = create((set) => ({
     fetchProducts: async (page = 1, append = false) => {
         try {
             set({ isProductLoading: true });
-            const response = await axios.get('http://localhost:8000/products/', {
+            const response = await axios.get(`${process.env.React_APP_API_URL}/products/`, {
                 params: {
                     page,
                     limit: 8,
@@ -40,7 +40,7 @@ export const useProductStore = create((set) => ({
     searchProduct: async (searchTerm) => {
         try {
             set({ searchProductLoading: true });
-            const response = await axios.get('http://localhost:8000/products/search', {
+            const response = await axios.get(`${process.env.React_APP_API_URL}/products/search`, {
                 params: {
                     search: searchTerm,
                 }
@@ -61,7 +61,7 @@ export const useProductStore = create((set) => ({
         console.log("category on store", category);
         try {
             set({ searchProductLoading: true });
-            const response = await axios.get('http://localhost:8000/products/search-category', {
+            const response = await axios.get(`${process.env.React_APP_API_URL}/products/search-category`, {
                 params: {
                     category,
                 }

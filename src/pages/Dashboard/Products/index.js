@@ -20,7 +20,7 @@ export default function Products() {
     const fetchProducts = useCallback(async (page = 1, limit = 10) => {
         setLoading(true);
         try {
-            const response = await axios.get('http://localhost:8000/products/get-complete-products', {
+            const response = await axios.get(`${process.env.React_APP_API_URL}/products/get-complete-products`, {
                 params: { page, limit },
             });
             const { data, total } = response.data;
@@ -144,7 +144,7 @@ export default function Products() {
     const deleteProduct = async (id) => {
         const productId = id;
         try {
-            const response = await axios.delete(`http://localhost:8000/products/delete/${productId}`);
+            const response = await axios.delete(`${process.env.React_APP_API_URL}/products/delete/${productId}`);
 
             setProducts(products.filter(product => product._id !== productId));
             setPagination(prev => ({
@@ -181,7 +181,7 @@ export default function Products() {
         }
         try {
             setLoading(true);
-            const response = await axios.get('http://localhost:8000/products/search', {
+            const response = await axios.get(`${process.env.React_APP_API_URL}/products/search`, {
                 params: {
                     search,
                 }

@@ -28,7 +28,7 @@ export default function Checkout() {
         const token = localStorage.getItem('token') || ''
         if (!token) return window.toastify('Please login to continue', 'error')
         try {
-            const response = await axios.get('http://localhost:8000/address/user-address', {
+            const response = await axios.get(`${process.env.React_APP_API_URL}/address/user-address`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -87,7 +87,7 @@ export default function Checkout() {
 
         try {
             setAddLoading(true)
-            const response = await axios.post('http://localhost:8000/address/add', formData, {
+            const response = await axios.post(`${process.env.React_APP_API_URL}/address/add`, formData, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -113,7 +113,7 @@ export default function Checkout() {
         if (!token) return window.toastify('Please login to continue', 'error')
         try {
             setDeleteLoading(true)
-            const response = await axios.delete(`http://localhost:8000/address/delete/${id}`, {
+            const response = await axios.delete(`${process.env.React_APP_API_URL}/address/delete/${id}`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -158,7 +158,7 @@ export default function Checkout() {
 
         try {
             setOrderLoading(true);
-            const response = await axios.post('http://localhost:8000/orders/add', orderPayload, {
+            const response = await axios.post(`${process.env.React_APP_API_URL}/orders/add`, orderPayload, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { PlusOutlined } from '@ant-design/icons';
 import { Image, Upload, message } from 'antd';
 import axios from 'axios';
@@ -209,7 +209,7 @@ export default function ProductForm({ initialData = {}, isEdit = false, onClose,
             }
         } else {
             try {
-                const response = await axios.post('http://localhost:8000/products/add', product);
+                const response = await axios.post(`${process.env.React_APP_API_URL}/products/add`, product);
                 // console.log("response.data", response.data);
                 message.success(response.data.message);
 

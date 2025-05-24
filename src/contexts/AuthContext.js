@@ -24,7 +24,7 @@ export default function AuthContext({ children }) {
         try {
             const token = localStorage.getItem('token') || ''
             if (token) {
-                const response = await axios.get('http://localhost:8000/users/me', {
+                const response = await axios.get(`${process.env.React_APP_API_URL}/users/me`, {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
