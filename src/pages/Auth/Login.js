@@ -2,12 +2,12 @@ import React, { useState } from 'react'
 import { Button, Card, Input, Modal } from 'antd'
 import { UserOutlined } from '@ant-design/icons';
 import { Link, useNavigate } from 'react-router-dom';
-import { useAuthStore } from '../../store/useAuthStore';
+import { useAuthContext } from '../../contexts/AuthContext';
 
 const initialState = { email: '', password: '' };
 
 export default function Login() {
-    const { login } = useAuthStore();
+    const { login} = useAuthContext();
     const [state, setState] = useState(initialState)
     const [isProcessing, setIsProcessing] = useState(false)
     const [isSendProcessing, setIsSendProcessing] = useState(false);

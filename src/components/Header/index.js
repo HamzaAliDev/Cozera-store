@@ -11,11 +11,13 @@ import { useCartStore } from '../../store/useCartStore';
 
 export default function Header() {
     const location = useLocation(); // Get current route
-    const { user, handleLogout } = useAuthContext()
+    const { user, handleLogout, isAuthenticated } = useAuthContext()
     const { wishlist } = useWishlistStore()
     const { cart } = useCartStore();
 
-    const checkAdmin = user?.role[1] === 'admin' ? true : false
+    // const checkAdmin = user?.role[1] === 'admin' ? true : false
+    const checkAdmin = Array.isArray(user?.role) && user.role.includes('admin');
+
 
 
     const handleLogoutClick = () => {
@@ -37,7 +39,7 @@ export default function Header() {
                                 <div className="header__top__right">
                                     <div className="header__top__links">
                                         {checkAdmin && <Link to='/dashboard' className='Links'>Dashboard</Link>}
-                                        {user ?
+                                        {user && isAuthenticated ?
                                             <span className='Links' role="button" tabIndex="0" onClick={handleLogoutClick}>Sign out</span>
                                             :
                                             <Link to='/auth/login' className='Links'>Sign in</Link>

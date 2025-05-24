@@ -41,12 +41,42 @@ export default function AuthContext({ children }) {
         } catch (error) {
             console.log("error", error)
             dispatch({ type: 'SET_LOGGED_OUT' })
-        }finally{
+        } finally {
             setIsAppLoading(false)
         }
     }, [])
 
     useEffect(() => { readProfile() }, [readProfile])
+
+    const login = async (formData) => {
+        try {
+            const response = await axios.post(`${process.env.React_APP_API_URL}/users/login`, formData);
+            if (response.status === 200) {
+                localStorage.setItem('token', response.data.data.token);
+                dispatch({ type: 'SET_LOGGED_IN', payload: { user: response.data.data.user } });
+                window.toastify(response.data.message, 'success');
+                return null;
+            }
+        } catch (error) {
+            window.toastify(error.response?.data?.message || "Login failed", 'error');
+            return error.response?.data?.message;
+        }
+    }
+
+    const register = async (formData) => {
+        try {
+            const response = await axios.post(`${process.env.React_APP_API_URL}/users/register`, formData);
+            if (response.status === 201) {
+                localStorage.setItem('token', response.data.data.token);
+                dispatch({ type: 'SET_LOGGED_IN', payload: { user: response.data.data.user } });
+                window.toastify(response.data.message, 'success');
+                return null;
+            }
+        } catch (error) {
+            window.toastify(error.response?.data?.message || "Register failed", 'error');
+            return error.response?.data?.message;
+        }
+    }
 
     const handleLogout = async () => {
 
@@ -58,7 +88,7 @@ export default function AuthContext({ children }) {
 
 
     return (
-        <Auth.Provider value={{ ...state, dispatch, isAppLoading, setIsAppLoading, handleLogout }}>
+        <Auth.Provider value={{ ...state, dispatch, isAppLoading, setIsAppLoading, login, register,  handleLogout }}>
             {children}
         </Auth.Provider>
     )

@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button, Card, Input } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
-import { useAuthStore } from '../../store/useAuthStore';
+import { useAuthContext } from '../../contexts/AuthContext';
 
 const initialState = { name: '', email: '', password: '' };
 const isValidEmail = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g;
 
 export default function Register() {
-    const { register } = useAuthStore();
+    const { register} = useAuthContext();
     const [state, setState] = useState(initialState);
     const [isProcessing, setIsProcessing] = useState(false)
     const navigate = useNavigate();
